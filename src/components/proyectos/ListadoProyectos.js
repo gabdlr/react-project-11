@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import Proyecto from './Proyecto';
 import proyectoContext from '../../context/proyectos/proyectoContext';
-import { OBTENER_PROYECTOS } from '../../types';
+
 const ListadoProyectos = () => {
 
     // Extraer proyectos de state inicial
@@ -14,7 +14,7 @@ const ListadoProyectos = () => {
     }, [])
 
     //Proyectos tiene contenido ?
-    if(proyectos.length === 0) return  null;
+    if(proyectos.length === 0) return  <p>No hay proyectos, comienza creando uno!</p>;
 
 
     return ( 
