@@ -11,12 +11,13 @@ const Proyecto = ( { proyecto } ) => {
 
     //Obtener la función del context de tarea
     const tareasContext = useContext(tareaContext);
-    const { obtenerTareas } = tareasContext;
+    const { obtenerTareas, limpiarTarea } = tareasContext;
 
     //Función para agregar el proyecto actual
     const seleccionarProyecto = id => {
         proyectoActual(id); //Fijar un proyecto actual
         obtenerTareas(id); //Filtrar las tareas cuando se de click
+        limpiarTarea();
     }
     
     return (
