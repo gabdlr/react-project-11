@@ -7,7 +7,8 @@ import { AGREGAR_PROYECTO,
     OBTENER_PROYECTOS, 
     VALIDAR_FORMULARIO,
     PROYECTO_ACTUAL,
-    ELIMINAR_PROYECTO } from '../../types';
+    ELIMINAR_PROYECTO,
+    PROYECTO_ERROR } from '../../types';
 
 const ProyectoState = props => {
 
@@ -15,7 +16,8 @@ const ProyectoState = props => {
             proyectos: [],
             formulario: false,
             errorFormulario: false,
-            proyecto: null
+            proyecto: null,
+            mensaje: null
         }
 
     // Dispatch para ejecutar las acciones
@@ -37,7 +39,14 @@ const ProyectoState = props => {
             payload: resultado.data
         });   
         } catch (error) {
-            
+            const alerta = {
+                msg: "Hubo un error 🤷‍♀️",
+                categoria: "alerta"
+            }
+            dispatch({
+                type: PROYECTO_ERROR,
+                payload: alerta
+            });
         }
     }
 
@@ -52,8 +61,15 @@ const ProyectoState = props => {
         });
 
        } catch (error) {
-           console.log(error);
-       }
+            const alerta = {
+                msg: "Hubo un error 🤷‍♀️",
+                categoria: "alerta"
+            }
+            dispatch({
+                type: PROYECTO_ERROR,
+                payload: alerta
+            });
+        }
     }
 
     //Valida el formulario por errores
@@ -80,7 +96,14 @@ const ProyectoState = props => {
                 payload: proyectoId
             })
         } catch (error) {
-            console.log(error);
+            const alerta = {
+                msg: "Hubo un error 🤷‍♀️",
+                categoria: "alerta"
+            }
+            dispatch({
+                type: PROYECTO_ERROR,
+                payload: alerta
+            });
         }
     }
 
@@ -94,6 +117,7 @@ const ProyectoState = props => {
                 formulario: state.formulario,
                 errorFormulario: state.errorFormulario,
                 proyecto: state.proyecto,
+                mensaje: state.mensaje,
                 mostrarFormulario,
                 obtenerProyectos,
                 agregarProyecto,
