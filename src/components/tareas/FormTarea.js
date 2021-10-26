@@ -49,6 +49,9 @@ const FormTarea = () => {
     const onSubmit = e => {
         e.preventDefault();
 
+        if(!tarea) {
+            return;
+        }
         //validar
         if(nombre.trim() === ""){
             validarTarea()
