@@ -1,16 +1,36 @@
-import React,{ useState } from 'react'
+import React,{ useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-const NuevaCuenta = () => {
+import AlertaContext from "../../context/alertas/alertaContext";
+import AuthContext from '../../context/auth/authContext';
 
-     //State para crear nuevo usuario
-     const [ usuario, guardarUsuario ] = useState(
-        {
-            nombre: "",
-            email: "",
-            password: "",
-            confirmarPassword: ""
-        }
-    )
+const NuevaCuenta = (props) => {
+
+    //Extraer los valores del context (alerta)
+    const alertaContext = useContext(AlertaContext);
+    const { alerta, mostrarAlerta } = alertaContext;
+    
+
+    //Context authContext
+    const authContext = useContext(AuthContext);
+    const { registrarUsuario, mensaje, autenticado } = authContext;
+
+    //En caso de que el usuario sea autenticado o registrado o sea un registro duplicado
+
+    useEffect(() => {
+        if(autenticado) props.history.push("/proyectos");
+        if(mensaje) mostrarAlerta(mensaje.msg, mensaje.categoria);
+
+        //Tomamos props, para tomar props.history de react-router-dom
+    }, [ mensaje, autenticado, props.history, mostrarAlerta])
+    //State para crear nuevo usuario
+    const [ usuario, guardarUsuario ] = useState(
+    {
+        nombre: "",
+        email: "",
+        password: "",
+        confirmarPassword: ""
+    }
+)
 
     //Pasa los valores al state
     const onChange = (e) => {
@@ -28,18 +48,32 @@ const NuevaCuenta = () => {
         e.preventDefault();
 
         //Validar que no haya campos vacios
-
+        if(nombre.trim() === "" || email.trim() === "" || password.trim === "" || confirmarPassword.trim() === ""){
+            mostrarAlerta("Todos los campos son obligatorios", "alerta-error");
+            return;
+        }
         //Password minimo 6 caracteres
-
+        if(password.length < 6){
+            mostrarAlerta("El password debe ser de al menos 6 caracteres", "alerta-error");
+            return;
+        }
         //Los 2 passwords iguales
-
+        if( password !== confirmarPassword){
+            mostrarAlerta("Los passwords no son iguales", "alerta-error");
+            return;
+        }
         //Pasarlo al action
-
+        registrarUsuario({
+            nombre,
+            email,
+            password
+        })
     }
 
 
     return ( 
         <div className="form-usuario">
+            { alerta ? (<div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>) : null }
             <div className="contenedor-form sombra-dark">
                 <form
                     onSubmit={onSubmit}
