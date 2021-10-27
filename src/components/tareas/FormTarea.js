@@ -63,8 +63,7 @@ const FormTarea = () => {
         if(tareaSeleccionada === null) {
             //tarea nueva
             //agregar nueva tarea al state de tareas
-            tarea.proyectoId = proyectoActual.id;
-            tarea.estado = false;
+            tarea.proyecto = proyectoActual._id;
             agregarTarea(tarea);
         } else {
             //Actualiza la tarea existente
@@ -77,7 +76,7 @@ const FormTarea = () => {
 
         //Obtener y filtrar las tareas del proyecto actual
         //(para el futuro creo que aca aplicaria mas usar un useEffect)
-        obtenerTareas(proyectoActual.id);
+        obtenerTareas(proyectoActual._id);
 
         //reiniciar el form
         guardarTarea({
