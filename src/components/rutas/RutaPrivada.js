@@ -14,8 +14,8 @@ const RutaPrivada = ({ component: Component, ...props }) => {
         //La demencia
         <Route
          { ...props } render = { props => !autenticado && !cargando ? (
-             <Redirect to="./crear-cuenta"/>
-         ) : <Component {...props}/> }
+             <Redirect to="./"/>
+         ) : <Component exact path="/proyectos" {...props}/> }
         />
      );
 }
